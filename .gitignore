@@ -1,0 +1,116 @@
+# ──────────────────────────────
+# Node.js
+# ──────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Optional npm cache directory
+.npm/
+.yarn/
+.pnpm-store/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build and compiled output
+dist/
+build/
+out/
+coverage/
+lib/
+tmp/
+temp/
+.cache/
+.next/
+.nuxt/
+.svelte-kit/
+.storybook-out/
+.vite/
+.esbuild/
+parcel-cache/
+
+# Logs
+logs/
+*.log
+*.log.*
+*.out
+*.pid
+*.seed
+*.csv
+*.tgz
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Testing
+coverage/
+.nyc_output/
+
+# IDEs and Text Editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional lock files (decide your own policy)
+# If your team prefers deterministic installs, keep *one* lock file.
+#*.lock
+#yarn.lock
+#pnpm-lock.yaml
+#package-lock.json
+
+# React Native / Expo specifics (if applicable)
+.expo/
+.expo-shared/
+
+# Electron / Desktop
+electron-builder-output/
+.release/
+*.asar
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Miscellaneous tools
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# VSCode history and backups
+.history/
+*.code-workspace
+
+# Local secrets or credentials (never commit!)
+secrets/
+keys/
+*.pem
+*.key
+credentials.json
+firebase-service-account*.json
+
+# Lint / formatter caches
+.eslintcache
+.stylelintcache
+.prettier-cache
+
+# Cypress / Playwright testing
+.cypress/
+playwright-report/
+test-results/
