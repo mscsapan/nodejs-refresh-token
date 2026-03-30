@@ -1,1 +1,2 @@
-const MONGO_URI = '';
+MONGO_URI = '';
+PORT = 3000;
