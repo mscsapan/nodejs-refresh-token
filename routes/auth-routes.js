@@ -1,16 +1,21 @@
-import express from 'express';
+import express from "express";
+import {
+    register,
+    login,
+    refresh,
+    logout,
+} from "../controllers/authController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+
 const router = express.Router();
-import authController = require("../controllers/authController");
-import authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/register", authController.register);
-router.post("/login", authController.login);
-router.post("/refresh", authController.refresh);
-router.post("/logout", authController.logout);
+router.post("/register", register);
+router.post("/login", login);
+router.post("/refresh", refresh);
+router.post("/logout", logout);
 
-// Protected Route
 router.get("/profile", authMiddleware, (req, res) => {
-    res.json({ message: "Protected data", user: req.user });
+    res.json({ message: "Protected route", user: req.user });
 });
 
-module.exports = router;
+export default router;
