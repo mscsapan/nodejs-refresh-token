@@ -78,3 +78,7 @@ export const logout = async (req, res) => {
 
     res.json({ message: "Logged out" });
 };
+
+export const home = async (req, res) => {
+    res.json({ message: "Welcome to refresh token backend api" });
+};

@@ -7,6 +7,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", routes);
+app.use("/api", routes);
 
 export default app;
