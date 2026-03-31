@@ -1,50 +1,63 @@
 import User from "../models/user-model.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import ApiError from "../utils/api-errors.js";
 import {
     generateAccessToken,
     generateRefreshToken,
 } from "../utils/token.js";
 
 // REGISTER
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
     try {
-        const { firstName, lastName, email, phone, password, gender } = req.body;
+        const { email, password } = req.body;
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            throw new ApiError(400, "Email already exists");
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
-            firstName,
-            lastName,
-            email,
-            phone,
+            ...req.body,
             password: hashedPassword,
-            gender,
         });
 
-        res.json({ message: "User registered", user });
+        res.status(201).json({
+            success: true,
+            message: "User registered",
+            data: user,
+        });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        next(err);
     }
 };
 
 // LOGIN
-export const login = async (req, res) => {
-    const { email, password } = req.body;
+export const login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: "User not found" });
+        const user = await User.findOne({ email });
+        if (!user) throw new ApiError(404, "User not found");
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid password" });
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) throw new ApiError(400, "Invalid credentials");
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
 
-    user.refreshToken = refreshToken;
-    await user.save();
+        user.refreshToken = refreshToken;
+        await user.save();
 
-    res.json({ accessToken, refreshToken });
+        res.json({
+            success: true,
+            accessToken,
+            refreshToken,
+        });
+    } catch (err) {
+        next(err);
+    }
 };
 
 // REFRESH TOKEN
