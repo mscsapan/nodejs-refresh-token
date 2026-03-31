@@ -4,6 +4,8 @@ import {
     login,
     refresh,
     logout,
+    home,
+    userProfile,
 } from "../controllers/auth-controller.js";
 import authMiddleware from "../middleware/auth-middleware.js";
 import validate from "../middleware/validation-middleware.js";
@@ -20,8 +22,7 @@ router.post("/login", validate(validateLogin), login);
 router.post("/refresh", refresh);
 router.post("/logout", logout);
 
-router.get("/profile", authMiddleware, (req, res) => {
-    res.json({ message: "Protected route", user: req.user });
-});
+router.get("/profile", authMiddleware, userProfile);
+router.get('/', home);
 
 export default router;

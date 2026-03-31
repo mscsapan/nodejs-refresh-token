@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import cookieParser from "cookie-parser";
 import routes from "./routes/auth-routes.js";
 import errorHandler from "./middleware/error-middleware.js";
@@ -7,6 +7,8 @@ import notFound from "./middleware/not-found-middleware.js";
 const app = express();
 
 app.use(express.json());
+
+// app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 

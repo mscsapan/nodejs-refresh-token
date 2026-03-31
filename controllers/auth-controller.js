@@ -1,6 +1,7 @@
 import User from "../models/user-model.js";
 import bcrypt from "bcryptjs";
 import ApiError from "../utils/api-errors.js";
+
 import {
     generateAccessToken,
     generateRefreshToken,
@@ -94,5 +95,31 @@ export const logout = async (req, res) => {
 };
 
 export const home = async (req, res) => {
-    res.json({ message: "Welcome to refresh token backend api" });
+    res.status(200).set('Content-Type', 'application/json').set({
+        'Cache-Control': 'no-store',
+        'X-Custom-Header': 'RefreshTokenAPI'
+    }).json({ message: "Welcome to refresh token backend api" });
+};
+
+
+export const userProfile = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+
+        const user = await User.findById(userId).select("-password -refreshToken");
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: user,
+        });
+    } catch (err) {
+        next(err);
+    }
 };
