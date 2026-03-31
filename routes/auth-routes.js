@@ -16,8 +16,7 @@ import {
 const router = express.Router();
 
 router.post("/register", validate(validateRegister), register);
-// router.post("/login", validate(validateLogin), login);
-router.post("/login", login);
+router.post("/login", validate(validateLogin), login);
 router.post("/refresh", refresh);
 router.post("/logout", logout);
 
