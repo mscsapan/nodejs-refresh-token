@@ -35,29 +35,31 @@ export const register = async (req, res, next) => {
 
 // LOGIN
 export const login = async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
+    console.log(`req body ${req.method}`);
+    res.json({ method: req.method });
+    // try {
+    //     const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
-        if (!user) throw new ApiError(404, "User not found");
+    //     const user = await User.findOne({ email });
+    //     if (!user) throw new ApiError(404, "User not found");
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) throw new ApiError(400, "Invalid credentials");
+    //     const isMatch = await bcrypt.compare(password, user.password);
+    //     if (!isMatch) throw new ApiError(400, "Invalid credentials");
 
-        const accessToken = generateAccessToken(user);
-        const refreshToken = generateRefreshToken(user);
+    //     const accessToken = generateAccessToken(user);
+    //     const refreshToken = generateRefreshToken(user);
 
-        user.refreshToken = refreshToken;
-        await user.save();
+    //     user.refreshToken = refreshToken;
+    //     await user.save();
 
-        res.json({
-            success: true,
-            accessToken,
-            refreshToken,
-        });
-    } catch (err) {
-        next(err);
-    }
+    //     res.json({
+    //         success: true,
+    //         accessToken,
+    //         refreshToken,
+    //     });
+    // } catch (err) {
+    //     next(err);
+    // }
 };
 
 // REFRESH TOKEN
