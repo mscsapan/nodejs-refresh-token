@@ -1,5 +1,6 @@
 import Todo from "../models/todo-model.js";
 import ApiError from "../utils/api-errors.js";
+import { checkProperty } from "../utils/check-property.js";
 export const getAllTodoes = async (req, res, next) => {
     try {
         // const todo = await Todo.find({ user: req.user.id });
@@ -34,6 +35,37 @@ export const addNewTodo = async (req, res, next) => {
             success: true,
             message: "Todo created successfully",
             data: todo,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateTodo = async (req, res, next) => {
+    try {
+        const todoId = req.params.id;
+
+        const { title, description, isCompleted } = req.body || {};
+
+        const existingTodo = await Todo.findOne({
+            _id: todoId,
+            user: req.user.id,
+        });
+
+        if (!existingTodo) {
+            throw new ApiError(404, "Todo not found");
+        }
+
+        if (title !== undefined) existingTodo.title = title;
+        if (description !== undefined) existingTodo.description = description;
+        if (isCompleted !== undefined) existingTodo.isCompleted = isCompleted;
+
+        await existingTodo.save();
+
+        res.json({
+            success: true,
+            message: "Todo updated successfully",
+            data: existingTodo,
         });
     } catch (error) {
         next(error);
