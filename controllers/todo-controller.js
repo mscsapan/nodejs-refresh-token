@@ -71,3 +71,21 @@ export const updateTodo = async (req, res, next) => {
         next(error);
     }
 };
+
+export const deleteTodo = async (req, res, next) => {
+    try {
+        const todoId = req.params.id;
+
+        const todo = await Todo.findByIdAndDelete({ _id: todoId, user: req.user.id });
+        if (!todo) {
+            throw new ApiError(404, "Todo not found");
+        }
+
+        res.json({
+            success: true,
+            message: "Todo delete successfully",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
