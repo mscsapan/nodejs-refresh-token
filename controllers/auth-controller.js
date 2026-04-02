@@ -66,7 +66,6 @@ export const login = async (req, res, next) => {
 // REFRESH TOKEN
 export const refresh = async (req, res) => {
     const { token } = req.body;
-    console.log(`current token ${token}`);
 
     if (!token) return res.status(401).json({ message: "No token" });
 
@@ -109,7 +108,7 @@ export const userProfile = async (req, res, next) => {
     try {
         const userId = req.user.id;
 
-        const user = await User.findById(userId).select("-password -refreshToken");
+        const user = await User.findById(userId).select("-password -refreshToken -accessToken");
 
         if (!user) {
             return res.status(404).json({

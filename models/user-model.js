@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
         phone: String,
         password: String,
         gender: String,
+        accessToken: String,
         refreshToken: String,
     },
     { timestamps: true }
