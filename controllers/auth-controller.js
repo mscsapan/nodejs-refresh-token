@@ -1,6 +1,7 @@
 import User from "../models/user-model.js";
 import bcrypt from "bcryptjs";
 import ApiError from "../utils/api-errors.js";
+import jwt from "jsonwebtoken";
 
 import {
     generateAccessToken,
@@ -65,6 +66,7 @@ export const login = async (req, res, next) => {
 // REFRESH TOKEN
 export const refresh = async (req, res) => {
     const { token } = req.body;
+    console.log(`current token ${token}`);
 
     if (!token) return res.status(401).json({ message: "No token" });
 
@@ -79,6 +81,7 @@ export const refresh = async (req, res) => {
 
         res.json({ accessToken: newAccessToken });
     });
+
 };
 
 // LOGOUT
