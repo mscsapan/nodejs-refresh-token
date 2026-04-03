@@ -2,4 +2,8 @@ import express from 'express';
 
 const route = express.Router();
 
-route.get('/get-setting');
+import { getSetting } from '../controllers/setting-controller.js';
+
+route.get('/get-setting', getSetting);
+
+export default route;
